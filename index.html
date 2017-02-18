@@ -1,0 +1,211 @@
+﻿<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <link rel="stylesheet" type="text/css" media="all" href="styles.css" />
+  <link rel="stylesheet" type="text/css" media="all" href="./jquery/jquery-ui.css" />
+  <title>WebRTC Demo</title>
+  <script type="text/javascript" src="./org/cometd.js"></script>
+ <!-- <script type="text/javascript" src="./org/cometd/AckExtension.js"></script>
+  <script type="text/javascript" src="./org/cometd/ReloadExtension.js"></script>  -->
+  <script type="text/javascript" src="./jquery/jquery-1.10.2.js"></script>
+  <script type="text/javascript" src="./jquery/jquery-ui.js"></script>
+ 
+
+  <script type="text/javascript" src="./jquery/jquery.md5.js"></script>
+  <script type="text/javascript" src="./jquery/jquery.cookie.js"></script>
+  <script type="text/javascript" src="./jquery/jquery.cometd.js"></script>
+ <!-- <script type="text/javascript" src="./jquery/jquery.cometd-reload.js"></script> -->
+  <script type="text/javascript" src="libcometd.js"></script>
+  <script type="text/javascript" src="libwebrtc.js"></script>
+  <script type="text/javascript" src="hashme.js"></script>
+  <script type="text/javascript" src="md5.js"></script>
+ <!-- <script type="text/javascript" src="webrtc_media.js"></script> 
+  <script type="text/javascript" src="rtcprotocol.js"></script>
+  <script type="text/javascript" src="websocket.js"></script>
+ <<script type="text/javascript" src="configs.js"></script> 
+-->
+  <script type="text/javascript" src="init.js"></script>
+  <script type="text/javascript" src="rtcprotocol.js"></script>
+  <script type="text/javascript" src="configs.js"></script>
+
+  <script type="text/javascript" src="./fileSystem/protocolMessage.js"></script>
+  <script type="text/javascript" src="./fileSystem/base64.js"></script>
+  <script type="text/javascript" src="./fileSystem/file.js"></script>
+  <script type="text/javascript" src="./fileSystem/lang_ext.js"></script>
+  <script type="text/javascript" src="./fileSystem/queue.js"></script>
+  <script type="text/javascript" src="./fileSystem/FSio.js"></script>
+  <script type="text/javascript" src="./fileSystem/Block.js"></script>
+  <script type="text/javascript" src="./fileSystem/BlockMap.js"></script>
+  <script type="text/javascript" src="./fileSystem/BlockCache.js"></script>
+  <script type="text/javascript" src="./fileSystem/AvailabilityMap.js"></script>
+  <script type="text/javascript" src="./fileSystem/binaryProtocol.js"></script>
+
+<!--  <script type="text/javascript" src="PeerConnection.js"></script>
+  <script type="text/javascript" src="PeerConnection2.js"></script>
+
+
+-->
+
+  <script type="text/javascript" src="app.js"></script>
+  <script type="text/javascript" src="SigSession.js"></script>  
+  <script type="text/javascript" src="WConnection.js"></script>
+  <script type="text/javascript" src="WUserSessionBase.js"></script>
+  <script type="text/javascript" src="start.js"></script>
+
+  <script type="text/javascript" src="AudioModule.js"></script>
+  <script type="text/javascript" src="VideoModule.js"></script>
+  <script type="text/javascript" src="FileModule.js"></script>
+   <script type="text/javascript" src="IMSVideoModule.js"></script>
+  <script type="text/javascript" src="IMSAudioModule.js"></script>
+  <script type="text/javascript" src="MeetingVideoModule.js"></script>
+  <script type="text/javascript" src="MeetingAudioModule.js"></script>
+  <script type="text/javascript" src="WOTTSession.js"></script>
+  <script type="text/javascript" src="WIMSSession.js"></script>
+  <script type="text/javascript" src="WMeetingSession.js"></script>
+
+
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="bootstrap/js/front.js"></script>
+
+ 
+  <link rel="stylesheet" type="text/css" media="all" href="styles.css" />
+
+   
+      <link rel="stylesheet" type="text/css" media="all" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="bootstrap/css/front.css" />
+
+  <script>
+  if(com.webrtc.getMediaSupport() == true){
+    console.log("media API support!");
+  } else{
+    console.log("media API unsupport!");
+  }
+  function printObj(myObject) { 
+       var s = ""; 
+       for (var property in myObject) { 
+       s = s + "<br> "+property +": " + myObject[property] ; 
+        } 
+       console.log("------"+s);
+}
+
+  </script>
+</head>
+<body>
+  <table border="0">
+    <tr>
+      <td>Local  Video</td>
+      <td>Remote Video</td>
+    </tr>
+   
+  </table>
+  <hr>
+
+  
+
+  <div id="config">
+    Server&nbsp;&nbsp;:
+    <!--input type="text" id="server" value="ws://10.108.119.65:7878"/-->
+    <!--<input type="text" id="server" value="http://10.108.114.252:8209/wcs/cometd"/> -->
+    <!--<input type="text" id="server" value="http://10.109.247.136:9090/wcs/cometd"/>-->
+    <input type="text" id="server" value="http://10.108.112.246:8588/wcs/cometd"/> 
+
+   <!--  <input type="text" id="server" value="http://10.109.247.136:5009/wcs/cometd"/> -->
+    <br>
+    localID&nbsp;:
+    <input type="text" id="callerid" value="guoxuntest1@WebRTC">
+    (connect前指定)
+    <br>
+    remoteID:
+    <input type="text" id="calleeid" value="guoxuntest2@WebRTC">
+    (操作前指定被叫方ID,此处是拨打webrtc用号码)
+    <br>
+    <input type="button" id="start" value="connect" onClick="loginwebrtc()"/>
+    <input type="button" id="start" value="disconnect" onClick="logoutwebrtc()"/>
+    <br>
+
+
+   
+  </div>
+  <hr>
+   <input type="button" id="call_video" value="发起视频会话" onClick="createVideoLabel2()"/>
+  <hr>
+   <hr>
+   <input type="button" id="call_audio" value="发起音频会话" onClick="createAudioLabel2()"/>
+  <hr>
+
+  <div id="dialog-send"></div>
+  <div id="dialog-receive"></div>
+
+  <hr>
+
+   <form id="upload" action="" method="POST" enctype="multipart/form-data">
+    <fieldset>
+      <legend>HTML File Upload</legend>
+      <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
+      <div>
+        <label for="fileselect">Files to upload:</label>
+        <input type="file" id="files" name="files[]"  onchange="com.webrtc.file.handleFiles(this.files)" multiple/>
+<input type="button" id="deletefiles" name="deletefiles" value="清空所有所选文件" onClick="com.webrtc.file.deleteFiles()"/>
+        <div id="filedrag"></div>
+      </div>
+    </fieldset>
+  </form>
+   
+  现在支持一次性传送多个文件给被叫，但选择文件时，请一个个添加，建议选择文件时，时间间隔大于1秒。
+    <input type="button" id="call_video" value="传送文件" onClick="SendFileRequest2()"/>
+<div id="messages">
+    <p>Status Messages</p>
+  </div>
+
+   <br>
+    IMSremoteID 前缀
+     <input type="text" id="calleeprefix" value="bob">  
+    号码
+    <input type="text" id="calleenumber" value="">
+    
+    <input type="hidden" id="calleedomain" value="@open-ims.com">
+    <br>
+     (操作前指定IMS被叫方ID,此处是拨打ims用户号码)
+ <hr>
+   <input type="button" id="call_ims_video" value="发起IMS视频会话" onClick="createIMSVideoLabel2()"/>
+  <hr>
+   <hr>
+   <input type="button" id="call_ims_audio" value="发起IMS音频会话" onClick="createIMSAudioLabel2()"/>
+  <hr>
+  <hr>
+  <form onsubmit="return false;">
+  <h3>WebSocke 连接Netty</h3>     
+  <textarea id="responseText" style="width: 300px;height:300px" ></textarea>
+   <input type="button" id="netty" value="注册到netty" onClick="loginTonetty()"/>
+  <br> 
+  事件类型<input type="text" name="event" style="width: 300px" value="UDP_CREATE"/>  <br>
+  主题<input type="text" name="theme" style="width: 300px" value="edu"/>  <br>
+  会议名称<input type="text" name="confName" style="width: 300px" value="222"/> <br>
+  会议类型 1：视频会议 0：语音会议<input type="text" name="confType" style="width: 300px" value="1"/> <br>
+  会议时长（单位：分钟）<input type="text" name="duration" style="width: 300px" value="30"/> <br>
+  即时会议？ 1：是 0：不是<input type="text" name="isImmediateConf" style="width: 300px" value="1"/> <br>
+  预约、周期会议有效
+  预约会议：表示预约会议的时间
+   周期会议：表示周期会议的首次执行时间<input type="text" name="reservationTime" style="width: 300px" value=""/> <br>
+   周期会议有效（单位：天）立即会议要写0 <input type="text" name="cycle" style="width: 300px" value="0"/> <br>
+   除了Host外的其他与会者的个数<input type="text" name="member_num" style="width: 300px" value="0"/> <br>
+    除了Host外的其他与会者Username #区分<input type="text" name="members" style="width: 300px" value="">
+<input type="button" value="召开会议"
+    onclick="sendBefore()"><br>
+    会议名称 <input type="text" name="room"/><input type="button" value="发起会议"
+    onclick="create()">
+      </form>
+
+ <input type="button" id="netty" value="询问与我相关会议列表" onClick="requestmeetinginfo()"/>
+
+
+<script type="text/javascript" src="filedrag.js"></script>
+   <script type="text/javascript" src="udpclient.js"></script>
+   <script>
+    var create = function(){  
+      var RemoteID = $("input[name='room']").val();
+      createMeetingVideoLabel2(RemoteID);}
+   </script>
+</body>
+</html>
